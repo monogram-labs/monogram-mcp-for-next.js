@@ -1,8 +1,10 @@
 import { createMcpHandler } from '@vercel/mcp-adapter'
 import { z } from 'zod'
+import { NextRequest } from 'next/server'
 import { NEXTJS_INSTRUCTIONS } from './lib/instructions/nextjs'
 import { ESLINT_INSTRUCTIONS } from './lib/instructions/eslint'
 import { TYPESCRIPT_INSTRUCTIONS } from './lib/instructions/typescript'
+import { authenticateRequest } from './lib/security'
 
 const handler = createMcpHandler(
 	async (server) => {
@@ -167,4 +169,12 @@ const handler = createMcpHandler(
 	}
 )
 
-export { handler as GET, handler as POST, handler as DELETE }
+// Secured handlers
+async function securedHandler(request: NextRequest) {
+	const authError = await authenticateRequest(request)
+	if (authError) return authError
+
+	return handler(request)
+}
+
+export { securedHandler as GET, securedHandler as POST, securedHandler as DELETE }
