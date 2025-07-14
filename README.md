@@ -2,12 +2,33 @@
 
 **Uses `@vercel/mcp-adapter`**
 
-
 ## Usage
 
 This sample app uses the [Vercel MCP Adapter](https://www.npmjs.com/package/@vercel/mcp-adapter) that allows you to drop in an MCP server on a group of routes in any Next.js project.
 
 Update `app/[transport]/route.ts` with your tools, prompts, and resources following the [MCP TypeScript SDK documentation](https://github.com/modelcontextprotocol/typescript-sdk/tree/main?tab=readme-ov-file#server).
+
+## Linear Integration
+
+This MCP server includes Linear integration that allows you to query and manage Linear issues directly from Cursor.
+
+### Setup
+
+1. Get your Linear API key from Linear Settings → API → Create new API key
+2. Create a `.env.local` file in the project root:
+   ```
+   LINEAR_API_KEY=your-linear-api-key-here
+   ```
+3. Test the integration:
+   ```bash
+   pnpm test:linear
+   ```
+
+### Available Tools
+
+- `list_linear_issues` - Query and filter Linear issues by assignee, status, priority, labels, team, and project
+
+See [`docs/linear-integration.md`](docs/linear-integration.md) for detailed documentation and usage examples.
 
 ## Notes for running on Vercel
 

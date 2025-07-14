@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { NEXTJS_INSTRUCTIONS } from './lib/instructions/nextjs'
 import { ESLINT_INSTRUCTIONS } from './lib/instructions/eslint'
 import { TYPESCRIPT_INSTRUCTIONS } from './lib/instructions/typescript'
+import { LinearClient } from './lib/linear/client'
+import { formatLinearIssuesSummary, getLinearApiKey } from './lib/linear/utils'
 
 const handler = createMcpHandler(
 	async (server) => {
@@ -68,6 +70,58 @@ const handler = createMcpHandler(
 							text: `Based on the task "${task}" and type "${type}", here are the coding standards to follow:\n\n${allStandards}\n\nNow generate the requested code following these standards exactly.`,
 						},
 					],
+				}
+			}
+		)
+
+		// Add Linear integration tool
+		server.tool(
+			'list_linear_issues',
+			'Query and filter Linear issues. You can filter by assignee, status, priority, labels, team, and project. Use this to get an overview of issues or find specific issues.',
+			{
+				assignee: z.string().optional().describe('User ID or email to filter by assignee'),
+				status: z.string().optional().describe('Issue status/state to filter by'),
+				priority: z
+					.enum(['0', '1', '2', '3', '4'])
+					.optional()
+					.describe('Priority level (0=No priority, 1=Urgent, 2=High, 3=Medium, 4=Low)'),
+				labels: z.array(z.string()).optional().describe('Array of label names to filter by'),
+				team: z.string().optional().describe('Team ID or key to filter by'),
+				project: z.string().optional().describe('Project ID to filter by'),
+				limit: z
+					.number()
+					.min(1)
+					.max(100)
+					.default(50)
+					.optional()
+					.describe('Maximum number of issues to return'),
+				after: z.string().optional().describe('Cursor for pagination'),
+			},
+			async (params) => {
+				try {
+					const apiKey = getLinearApiKey()
+					const client = new LinearClient(apiKey)
+					const issues = await client.listIssues(params)
+					const formattedOutput = formatLinearIssuesSummary(issues)
+
+					return {
+						content: [
+							{
+								type: 'text',
+								text: formattedOutput,
+							},
+						],
+					}
+				} catch (error) {
+					const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+					return {
+						content: [
+							{
+								type: 'text',
+								text: `Error fetching Linear issues: ${errorMessage}`,
+							},
+						],
+					}
 				}
 			}
 		)
@@ -142,6 +196,10 @@ const handler = createMcpHandler(
 				generate_code_with_standards: {
 					description:
 						"Generate code following the project's coding standards. This automatically applies Next.js, ESLint, and TypeScript best practices.",
+				},
+				list_linear_issues: {
+					description:
+						'Query and filter Linear issues. You can filter by assignee, status, priority, labels, team, and project. Use this to get an overview of issues or find specific issues.',
 				},
 			},
 			resources: {
