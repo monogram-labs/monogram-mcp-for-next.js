@@ -11,7 +11,7 @@ const handler = createMcpHandler(
 		// Add tool to get coding standards
 		server.tool(
 			'get_coding_standards',
-			'Get coding standards and best practices for Next.js, ESLint, and TypeScript. Call this BEFORE generating any code to ensure it follows project standards.',
+			'Get comprehensive coding standards including file naming conventions, directory structure, component organization, TypeScript usage, ESLint rules, and Next.js best practices. Use this for questions about "how to name files", "directory structure", "coding conventions", or any standards-related questions.',
 			{
 				type: z.enum(['nextjs', 'eslint', 'typescript', 'all']).optional().default('all'),
 			},
@@ -48,7 +48,7 @@ const handler = createMcpHandler(
 		// Add tool for code generation that automatically includes standards
 		server.tool(
 			'generate_code_with_standards',
-			"Generate code following the project's coding standards. This automatically applies Next.js, ESLint, and TypeScript best practices.",
+			"Generate code following Monogram's coding standards. This automatically applies Next.js file naming conventions, directory structure, TypeScript best practices, ESLint rules, and component organization patterns. Use this whenever generating any code.",
 			{
 				task: z
 					.string()
@@ -139,11 +139,11 @@ const handler = createMcpHandler(
 			tools: {
 				get_coding_standards: {
 					description:
-						'Get coding standards and best practices for Next.js, ESLint, and TypeScript. Call this BEFORE generating any code to ensure it follows project standards.',
+						'Get comprehensive coding standards including file naming conventions, directory structure, component organization, TypeScript usage, ESLint rules, and Next.js best practices. Use this for questions about "how to name files", "directory structure", "coding conventions", or any standards-related questions.',
 				},
 				generate_code_with_standards: {
 					description:
-						"Generate code following the project's coding standards. This automatically applies Next.js, ESLint, and TypeScript best practices.",
+						"Generate code following Monogram's coding standards. This automatically applies Next.js file naming conventions, directory structure, TypeScript best practices, ESLint rules, and component organization patterns. Use this whenever generating any code.",
 				},
 			},
 			resources: {

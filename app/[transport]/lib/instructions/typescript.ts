@@ -5,7 +5,7 @@ Key TypeScript Principles
 
 - Write type-safe code that prevents runtime errors
 - Use TypeScript's type system to catch errors at compile time
-- Prefer explicit types over 'any' for better code documentation
+- Always use explicit types instead of 'any' for better code documentation
 - Use strict mode for maximum type safety
 - Leverage TypeScript's advanced features for better code quality
 
@@ -100,4 +100,4 @@ Performance and Build Optimization
 - Optimize tsconfig.json for build speed
 
 Always prioritize type safety over convenience and use TypeScript's features to prevent runtime errors.
-`;
+`
