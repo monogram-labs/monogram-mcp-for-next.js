@@ -11,7 +11,7 @@ const handler = createMcpHandler(
 		// Add tool to get coding standards
 		server.tool(
 			'get_coding_standards',
-			'Get comprehensive coding standards including file naming conventions, directory structure, component organization, TypeScript usage, ESLint rules, and Next.js best practices. Use this for questions about "how to name files", "directory structure", "coding conventions", or any standards-related questions.',
+			'Get comprehensive coding standards including file naming conventions, directory structure, component organization, TypeScript usage, ESLint rules, and Next.js best practices. Use this for questions about "how to name files", "directory structure", "coding conventions", or any coding standards-related questions.',
 			{
 				type: z.enum(['nextjs', 'eslint', 'typescript', 'all']).optional().default('all'),
 			},
