@@ -1,4 +1,4 @@
-import { createMcpHandler } from '@vercel/mcp-adapter'
+import { createMcpHandler } from 'mcp-handler'
 import { z } from 'zod'
 import { NextRequest } from 'next/server'
 import { NEXTJS_INSTRUCTIONS } from './lib/instructions/nextjs'
