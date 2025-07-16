@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@heroicons/react": "^2.2.0",
 		"@modelcontextprotocol/sdk": "^1.15.1",
-		"@vercel/mcp-adapter": "0.8.2",
+		"mcp-handler": "^1.0.0",
 		"next": "15.2.4",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
